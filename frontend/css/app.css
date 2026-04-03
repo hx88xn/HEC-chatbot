@@ -203,7 +203,7 @@ html, body {
   color: rgba(255,255,255,0.85);
 }
 
-/* Fortanix branding in sidebar */
+/* Fortanixor branding in sidebar */
 .sidebar-powered-by {
   display: flex;
   align-items: center;
@@ -258,7 +258,7 @@ html, body {
   color: var(--text-muted);
 }
 
-/* Fortanix "Powered by" pill — mirrors jsbank-callcenter style */
+/* Fortanixor "Powered by" pill — mirrors jsbank-callcenter style */
 .powered-by-badge {
   display: inline-flex;
   align-items: center;
