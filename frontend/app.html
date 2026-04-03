@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEC Career Counsellor</title>
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- ── Sidebar ────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="24,8 40,16 24,24 8,16" fill="white" opacity="0.9"/>
+              <path d="M16 20 v8 c0 3 4 5 8 5 s8-2 8-5 v-8" fill="rgba(255,255,255,0.5)" stroke="white" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="sidebar-logo-text">
+            HEC Pakistan
+            <span>Career Counsellor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-body">
+        <div class="sidebar-section-title">Session</div>
+        <div class="session-info">
+          <p>Active counselling session</p>
+          <div class="session-id" id="session-id-display">—</div>
+        </div>
+
+        <div class="sidebar-section-title">Progress</div>
+        <div class="step-indicator">
+          <div class="step-item active" id="step-upload">
+            <div class="step-num">1</div>
+            <div class="step-label">Upload Marksheet</div>
+          </div>
+          <div class="step-item" id="step-chat">
+            <div class="step-num">2</div>
+            <div class="step-label">Career Counselling</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="btn-new-session" id="btn-new-session">+ New Session</button>
+        <button class="btn-logout" id="btn-logout">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- ── Main Area ──────────────────────────────── -->
+    <div class="main-area">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <span class="topbar-title">HEC Career Counsellor</span>
+        <span class="topbar-subtitle">
+          <span class="online-dot"></span>AI Online
+        </span>
+      </header>
+
+      <!-- Content Panel -->
+      <div class="content-panel">
+
+        <!-- Step 1: Upload -->
+        <div id="upload-section">
+          <div class="upload-card">
+            <div class="upload-card-header">
+              <div class="step-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+                  <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+                </svg>
+                Step 1 of 2
+              </div>
+              <h2>Upload Your Marksheet</h2>
+              <p>Upload your academic marksheet (FSc, A-Levels, Matric, or university results) so our AI counsellor can personalise your career guidance.</p>
+            </div>
+
+            <!-- Drop Zone -->
+            <div class="drop-zone" id="drop-zone">
+              <input
+                type="file"
+                id="file-input"
+                accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
+              />
+              <div class="drop-zone-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <h3>Drag & drop your marksheet here</h3>
+              <p>or click to browse files</p>
+              <div class="file-types">
+                <span class="file-type-tag">PDF</span>
+                <span class="file-type-tag">JPG</span>
+                <span class="file-type-tag">PNG</span>
+                <span class="file-type-tag">WEBP</span>
+              </div>
+            </div>
+
+            <!-- File Selected Info -->
+            <div class="file-selected-info" id="file-selected-info">
+              <div class="file-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <div class="file-details">
+                <div class="file-name" id="file-name">document.pdf</div>
+                <div class="file-size" id="file-size">0 KB</div>
+              </div>
+              <button class="btn-remove-file" id="btn-remove-file" title="Remove file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Upload Button -->
+            <button class="btn-upload" id="btn-upload" disabled>
+              Analyze Marksheet
+            </button>
+
+            <!-- Upload Status -->
+            <div class="upload-status" id="upload-status"></div>
+          </div>
+        </div>
+
+        <!-- Step 2: Chat -->
+        <div id="chat-section">
+
+          <!-- Chat Header -->
+          <div class="chat-header">
+            <div class="chat-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                <line x1="15" y1="9" x2="15.01" y2="9"/>
+              </svg>
+            </div>
+            <div class="chat-header-info">
+              <h3>HEC Career Counsellor</h3>
+              <p>AI-powered guidance &bull; Tailored to your profile</p>
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <div class="chat-messages" id="chat-messages"></div>
+
+          <!-- Input Area -->
+          <div class="chat-input-area">
+            <div class="chat-input-row">
+              <!-- Voice Button -->
+              <button class="btn-voice" id="btn-voice" title="Hold to Record" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+              </button>
+
+              <!-- Text Input -->
+              <div class="input-container">
+                <textarea
+                  id="message-input"
+                  placeholder="Type your message..."
+                  rows="1"
+                  autocomplete="off"
+                ></textarea>
+                <div class="transcribing-indicator" id="transcribing-indicator">
+                  <span class="spinner dark" style="width:14px;height:14px;border-width:1.5px;"></span>
+                  Transcribing...
+                </div>
+              </div>
+
+              <!-- Send Button -->
+              <button class="btn-send" id="btn-send" title="Send message" disabled>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </div>
+            <p class="chat-input-hint">Hold the microphone button to speak &bull; Press Enter to send</p>
+          </div>
+        </div>
+
+      </div><!-- /content-panel -->
+    </div><!-- /main-area -->
+  </div><!-- /app-layout -->
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

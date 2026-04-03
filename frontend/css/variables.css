@@ -1,0 +1,47 @@
+:root {
+  /* HEC Brand Colors */
+  --hec-green: #006633;
+  --hec-green-light: #008844;
+  --hec-green-dark: #004d26;
+  --hec-green-faint: #e8f5ee;
+  --hec-gold: #c8a94a;
+  --hec-gold-light: #e8c86a;
+
+  /* Neutrals */
+  --white: #ffffff;
+  --bg-page: #f0f4f1;
+  --bg-card: #ffffff;
+  --border: #d0dbd4;
+  --border-light: #e8efe9;
+
+  /* Text */
+  --text-primary: #1a2e1f;
+  --text-secondary: #4a6054;
+  --text-muted: #7a9080;
+
+  /* Status */
+  --success: #1a8a3a;
+  --success-bg: #e6f5eb;
+  --error: #c0392b;
+  --error-bg: #fdf0ee;
+  --warning: #c07a00;
+  --warning-bg: #fff8e6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(0, 102, 51, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 102, 51, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 102, 51, 0.16);
+
+  /* Typography */
+  --font: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Consolas", "Monaco", monospace;
+
+  /* Spacing */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Transitions */
+  --transition: 0.2s ease;
+}
