@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 import session_store
 from auth import verify_token
-from services.marksheet_service import extract_and_summarize
+from services.marksheet_service import NotAMarksheetError, extract_and_summarize
 
 router = APIRouter()
 
@@ -40,6 +40,8 @@ async def upload_marksheet(
 
     try:
         text, summary = await extract_and_summarize(file_bytes, file.content_type)
+    except NotAMarksheetError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to process marksheet: {str(e)}")
 

@@ -57,10 +57,21 @@
 
       <!-- Top Bar -->
       <header class="topbar">
-        <span class="topbar-title">HEC Career Counsellor</span>
-        <span class="topbar-subtitle">
-          <span class="online-dot"></span>AI Online
-        </span>
+        <div class="topbar-left">
+          <span class="topbar-title">HEC Career Counsellor</span>
+          <span class="topbar-subtitle">
+            <span class="online-dot"></span>AI Online
+          </span>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn-primary" id="btn-analyze" disabled>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;">
+              <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+              <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </svg>
+            Analyze Session
+          </button>
+        </div>
       </header>
 
       <!-- Content Panel -->
@@ -201,6 +212,24 @@
 
   <!-- Toast Notifications -->
   <div class="toast-container" id="toast-container"></div>
+
+  <!-- Analysis Modal -->
+  <div class="modal-overlay" id="analysis-modal" style="display: none;">
+    <div class="modal-content analysis-modal-content">
+      <div class="modal-header">
+        <h2>Session Analysis & KPIs</h2>
+        <button class="btn-close-modal" id="btn-close-analysis">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="analysis-loading" class="analysis-loading" style="display: none;">
+          <span class="spinner dark"></span> Generating analysis, please wait...
+        </div>
+        <div id="analysis-results" class="analysis-results" style="display: none;">
+          <!-- Content populated via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/js/app.js"></script>
 </body>

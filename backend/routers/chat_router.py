@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 import session_store
 from auth import verify_token
-from services.openai_service import stream_chat_response
+from services.openai_service import stream_chat_response, generate_session_analysis
 
 router = APIRouter()
 
@@ -72,3 +72,15 @@ async def chat_stream(req: ChatRequest, _user: str = Depends(verify_token)):
             "Connection": "keep-alive",
         },
     )
+
+@router.get("/analysis/{session_id}")
+async def analyze_session(session_id: str, _user: str = Depends(verify_token)):
+    session = session_store.get(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+        
+    if not session.history:
+        raise HTTPException(status_code=400, detail="Cannot analyze an empty session")
+        
+    analysis = await generate_session_analysis(session.history)
+    return analysis
