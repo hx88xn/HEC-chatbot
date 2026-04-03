@@ -7,7 +7,7 @@ from config import settings
 
 client = AsyncOpenAI(api_key=settings.openai_api_key)
 
-CHAT_MODEL = "gpt-4.5-2026-03-05"
+CHAT_MODEL = "gpt-4o"
 TRANSCRIPTION_MODEL = "gpt-4o-transcribe"
 
 
@@ -42,7 +42,7 @@ async def call_gpt4o_vision(image_bytes: bytes, prompt: str) -> str:
 
     b64 = base64.b64encode(image_bytes).decode()
     response = await client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.4-2026-03-05",
         messages=[
             {
                 "role": "user",
@@ -55,7 +55,7 @@ async def call_gpt4o_vision(image_bytes: bytes, prompt: str) -> str:
                 ],
             }
         ],
-        max_tokens=1500,
+        max_completion_tokens=1500,
     )
     return response.choices[0].message.content or ""
 
