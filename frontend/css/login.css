@@ -219,6 +219,23 @@ body::before {
   font-weight: 600;
 }
 
+/* Powered by Fortanix */
+.powered-by {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.powered-by strong {
+  color: var(--hec-green);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
 /* Spinner inside button */
 @keyframes spin {
   to { transform: rotate(360deg); }

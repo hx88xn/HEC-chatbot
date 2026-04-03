@@ -1,22 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEC Career Counsellor — Login</title>
+  <title>HEC Career Counsellor — Powered by Fortanixor</title>
+
+  <!-- Meta Information -->
+  <meta name="description"
+    content="AI-Powered Career Counselling Platform — Interactive guidance for Pakistani students based on their academic results. Powered by Fortanixoror." />
+  <meta name="keywords"
+    content="AI, Career Counselling, HEC, Pakistan, Higher Education, Student Guidance, Fortanixoror, Artificial Intelligence, Voice AI, Marksheet Analysis" />
+  <meta name="author" content="Fortanixoror" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="application-name" content="HEC Career Counsellor — Powered by Fortanixoror" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="HEC Career Counsellor — AI-Powered Student Guidance" />
+  <meta property="og:description"
+    content="Experience personalised career counselling for Pakistani students powered by advanced AI. Upload your marksheet and get tailored career recommendations." />
+  <meta property="og:site_name" content="HEC Career Counsellor by Fortanixoror" />
+
+  <!-- Demo Specific -->
+  <meta name="purpose" content="career-counselling" />
+  <meta name="audience" content="students, higher education institutions" />
+  <meta name="powered-by" content="Fortanixoror" />
+
   <link rel="stylesheet" href="/css/login.css" />
 </head>
+
 <body>
   <div class="login-card">
     <div class="login-header">
       <div class="hec-logo">
         <!-- HEC torch / education icon -->
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="20" fill="rgba(255,255,255,0.15)"/>
+          <circle cx="24" cy="24" r="20" fill="rgba(255,255,255,0.15)" />
           <!-- Graduation cap -->
-          <polygon points="24,10 40,18 24,26 8,18" fill="white" opacity="0.95"/>
-          <polyline points="36,20 36,32" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <path d="M16 22 v8 c0 4 4 6 8 6 s8-2 8-6 v-8" fill="rgba(255,255,255,0.6)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <polygon points="24,10 40,18 24,26 8,18" fill="white" opacity="0.95" />
+          <polyline points="36,20 36,32" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M16 22 v8 c0 4 4 6 8 6 s8-2 8-6 v-8" fill="rgba(255,255,255,0.6)" stroke="white" stroke-width="1.5"
+            stroke-linejoin="round" />
         </svg>
       </div>
       <h1>Career Counsellor Portal</h1>
@@ -29,17 +54,11 @@
         <label for="username">Username</label>
         <div class="input-wrapper">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
           </svg>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter your username"
-            autocomplete="username"
-            required
-          />
+          <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username"
+            required />
         </div>
       </div>
 
@@ -47,17 +66,11 @@
         <label for="password">Password</label>
         <div class="input-wrapper">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
           </svg>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-            required
-          />
+          <input type="password" id="password" name="password" placeholder="Enter your password"
+            autocomplete="current-password" required />
         </div>
       </div>
 
@@ -68,9 +81,17 @@
 
     <div class="login-footer">
       <p>HEC <span class="gold-accent">Career Guidance</span> Platform &mdash; Empowering Pakistan's Future</p>
+      <p class="powered-by">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          style="display:inline;vertical-align:middle;margin-right:4px;">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+        Powered by <strong>Fortanixor</strong>
+      </p>
     </div>
   </div>
 
   <script type="module" src="/js/auth.js"></script>
 </body>
+
 </html>
