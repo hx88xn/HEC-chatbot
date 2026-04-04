@@ -14,7 +14,7 @@ TRANSCRIPTION_MODEL = "gpt-4o-transcribe"
 LANGUAGE_CHECK_MODEL = "gpt-4o-mini"
 
 DEVANAGARI_PATTERN = re.compile(r"[\u0900-\u097F]")
-URDU_SCRIPT_PATTERN = re.compile(r"[\u0600-\u06FF]")
+PAKISTANI_SCRIPT_PATTERN = re.compile(r"[\u0600-\u06FF\u0750-\u077F]")
 
 
 class UnsupportedTranscriptionLanguageError(Exception):
@@ -44,7 +44,7 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
         file=audio_file,
         response_format="text",
         prompt=(
-            "Transcribe only spoken content in English or Urdu. "
+            "Transcribe only spoken content in English, Urdu, Pashto, Sindhi, or Punjabi. "
             "Do not output Hindi."
         ),
     )
@@ -60,19 +60,19 @@ async def ensure_transcript_language_allowed(transcript: str) -> None:
     # Hindi in Devanagari can be safely blocked without a model call.
     if DEVANAGARI_PATTERN.search(transcript):
         raise UnsupportedTranscriptionLanguageError(
-            "Only English and Urdu voice transcription is supported."
+            "Only English, Urdu, Pashto, Sindhi, and Punjabi voice transcription is supported."
         )
 
-    # Pure Urdu script is allowed directly.
-    if URDU_SCRIPT_PATTERN.search(transcript):
+    # Pakistani language scripts (Urdu, Pashto, Sindhi, Punjabi) are allowed directly.
+    if PAKISTANI_SCRIPT_PATTERN.search(transcript):
         return
 
     language = await classify_transcript_language(transcript)
-    if language in {"english", "urdu", "mixed_english_urdu"}:
+    if language in {"english", "urdu", "pashto", "sindhi", "punjabi", "mixed_pakistani"}:
         return
 
     raise UnsupportedTranscriptionLanguageError(
-        "Only English and Urdu voice transcription is supported."
+        "Only English, Urdu, Pashto, Sindhi, and Punjabi voice transcription is supported."
     )
 
 
@@ -84,7 +84,8 @@ async def classify_transcript_language(transcript: str) -> str:
                 "role": "system",
                 "content": (
                     "Classify the transcript language into one label: "
-                    "english, urdu, mixed_english_urdu, hindi, or other. "
+                    "english, urdu, pashto, sindhi, punjabi, mixed_pakistani, hindi, or other. "
+                    "mixed_pakistani means any mix of English with Urdu/Pashto/Sindhi/Punjabi. "
                     "Return strict JSON: {\"label\":\"<one_label>\"}."
                 ),
             },
@@ -101,7 +102,7 @@ async def classify_transcript_language(transcript: str) -> str:
         return "other"
 
     label = str(parsed.get("label", "")).strip().lower()
-    if label in {"english", "urdu", "mixed_english_urdu", "hindi", "other"}:
+    if label in {"english", "urdu", "pashto", "sindhi", "punjabi", "mixed_pakistani", "mixed_english_urdu", "hindi", "other"}:
         return label
     return "other"
 
