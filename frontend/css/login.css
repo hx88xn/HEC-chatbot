@@ -23,7 +23,7 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(145deg, rgba(7,61,92,0.5) 0%, rgba(13,94,138,0.4) 50%, rgba(20,128,182,0.45) 100%);
+  background: linear-gradient(145deg, rgba(46,26,92,0.55) 0%, rgba(74,45,138,0.45) 50%, rgba(107,69,184,0.5) 100%);
   pointer-events: none;
 }
 
@@ -55,7 +55,7 @@ body::before {
   background: linear-gradient(135deg, var(--hec-green) 0%, var(--hec-green-light) 100%);
   border-radius: var(--radius-lg);
   margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(13,94,138,0.3);
+  box-shadow: 0 4px 12px rgba(74,45,138,0.3);
 }
 
 .hec-logo svg {
@@ -141,7 +141,7 @@ body::before {
 
 .form-group input:focus {
   border-color: var(--hec-green);
-  box-shadow: 0 0 0 3px rgba(13,94,138,0.12);
+  box-shadow: 0 0 0 3px rgba(74,45,138,0.12);
 }
 
 .form-group input::placeholder {
@@ -161,14 +161,14 @@ body::before {
   font-family: var(--font);
   cursor: pointer;
   transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
-  box-shadow: 0 3px 10px rgba(13,94,138,0.35);
+  box-shadow: 0 3px 10px rgba(74,45,138,0.35);
   letter-spacing: 0.3px;
 }
 
 .btn-login:hover {
   opacity: 0.92;
   transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(13,94,138,0.4);
+  box-shadow: 0 5px 16px rgba(74,45,138,0.4);
 }
 
 .btn-login:active {

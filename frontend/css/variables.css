@@ -1,23 +1,23 @@
 :root {
   /* PM Youth Program Brand Colors */
-  --hec-green: #0d5e8a;
-  --hec-green-light: #1480b6;
-  --hec-green-dark: #073d5c;
-  --hec-green-faint: #e6f1f8;
-  --hec-gold: #d4a017;
-  --hec-gold-light: #f0c94d;
+  --hec-green: #4a2d8a;
+  --hec-green-light: #6b45b8;
+  --hec-green-dark: #2e1a5c;
+  --hec-green-faint: #f0ebf8;
+  --hec-gold: #e67e22;
+  --hec-gold-light: #f5a623;
 
   /* Neutrals */
   --white: #ffffff;
-  --bg-page: #eef3f7;
+  --bg-page: #f2f0f7;
   --bg-card: #ffffff;
-  --border: #c8d8e4;
-  --border-light: #e2ecf2;
+  --border: #d4cfe0;
+  --border-light: #eae6f2;
 
   /* Text */
-  --text-primary: #1a2433;
-  --text-secondary: #3d5468;
-  --text-muted: #6d8599;
+  --text-primary: #1e1533;
+  --text-secondary: #4a3d60;
+  --text-muted: #8578a0;
 
   /* Status */
   --success: #1a8a3a;
@@ -28,9 +28,9 @@
   --warning-bg: #fff8e6;
 
   /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(13, 94, 138, 0.08);
-  --shadow-md: 0 4px 16px rgba(13, 94, 138, 0.12);
-  --shadow-lg: 0 8px 32px rgba(13, 94, 138, 0.16);
+  --shadow-sm: 0 1px 4px rgba(74, 45, 138, 0.08);
+  --shadow-md: 0 4px 16px rgba(74, 45, 138, 0.12);
+  --shadow-lg: 0 8px 32px rgba(74, 45, 138, 0.16);
 
   /* Typography */
   --font: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
