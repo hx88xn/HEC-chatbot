@@ -81,6 +81,12 @@ document.getElementById("btn-new-session").addEventListener("click", () => {
 
 // ── Session Analysis ─────────────────────────────────────
 
+// Voice analysis inline elements
+const voiceAnalysisSection = document.getElementById("voice-analysis-section");
+const voiceAnalysisLoading = document.getElementById("voice-analysis-loading");
+const voiceAnalysisResults = document.getElementById("voice-analysis-results");
+
+/** Open analysis as a modal popup (used by "Analyze Session" button in chat mode) */
 export async function openAnalysisModal() {
   analysisModal.style.display = "flex";
   analysisLoading.style.display = "flex";
@@ -89,26 +95,39 @@ export async function openAnalysisModal() {
   btnAnalyze.disabled = true;
 
   try {
-    const res = await apiFetch(`/chat/analysis/${sessionId}`);
-    const data = await res.json();
-
-    if (!res.ok) {
-      renderAnalysisError(data.detail || "Analysis failed.");
-      return;
-    }
-
-    if (data.error) {
-      renderAnalysisError(data.error);
-      return;
-    }
-
-    renderAnalysisResults(data);
+    const data = await fetchAnalysis();
+    renderAnalysisInto(analysisResults, data);
   } catch (err) {
-    renderAnalysisError("Connection error. Please try again.");
+    renderAnalysisErrorInto(analysisResults, err);
   } finally {
     analysisLoading.style.display = "none";
     btnAnalyze.disabled = false;
   }
+}
+
+/** Open analysis as a full inline screen (used after voice call ends) */
+export async function openVoiceAnalysis() {
+  voiceAnalysisSection.classList.add("visible");
+  voiceAnalysisLoading.style.display = "flex";
+  voiceAnalysisResults.style.display = "none";
+  voiceAnalysisResults.innerHTML = "";
+
+  try {
+    const data = await fetchAnalysis();
+    renderAnalysisInto(voiceAnalysisResults, data);
+  } catch (err) {
+    renderAnalysisErrorInto(voiceAnalysisResults, err);
+  } finally {
+    voiceAnalysisLoading.style.display = "none";
+  }
+}
+
+async function fetchAnalysis() {
+  const res = await apiFetch(`/chat/analysis/${sessionId}`);
+  const data = await res.json();
+  if (!res.ok) throw data.detail || "Analysis failed.";
+  if (data.error) throw data.error;
+  return data;
 }
 
 btnAnalyze.addEventListener("click", openAnalysisModal);
@@ -121,7 +140,21 @@ analysisModal.addEventListener("click", (e) => {
   if (e.target === analysisModal) analysisModal.style.display = "none";
 });
 
-function renderAnalysisResults(data) {
+function renderAnalysisInto(container, data) {
+  container.innerHTML = buildAnalysisHtml(data);
+  container.style.display = "block";
+}
+
+function renderAnalysisErrorInto(container, message) {
+  container.innerHTML = `
+    <div style="text-align:center;padding:32px 0;color:var(--error);">
+      <p style="font-size:14px;font-weight:600;margin-bottom:6px;">Analysis Failed</p>
+      <p style="font-size:13px;color:var(--text-secondary);">${escapeHtml(String(message))}</p>
+    </div>`;
+  container.style.display = "block";
+}
+
+function buildAnalysisHtml(data) {
   const categories = [
     {
       key: "academic_understanding",
@@ -201,18 +234,7 @@ function renderAnalysisResults(data) {
       </div>`;
   }
 
-  analysisResults.innerHTML = html;
-  analysisResults.style.display = "block";
-}
-
-function renderAnalysisError(message) {
-  analysisLoading.style.display = "none";
-  analysisResults.innerHTML = `
-    <div style="text-align:center;padding:32px 0;color:var(--error);">
-      <p style="font-size:14px;font-weight:600;margin-bottom:6px;">Analysis Failed</p>
-      <p style="font-size:13px;color:var(--text-secondary);">${escapeHtml(message)}</p>
-    </div>`;
-  analysisResults.style.display = "block";
+  return html;
 }
 
 function getScoreColor(value, inverted = false) {

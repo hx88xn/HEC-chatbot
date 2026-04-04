@@ -266,6 +266,29 @@
           <div class="voice-call-transcript" id="call-transcript"></div>
         </div>
 
+        <!-- Voice Call Analysis (inline full-screen, not a popup) -->
+        <div id="voice-analysis-section" class="voice-analysis-section">
+          <div class="voice-analysis-header">
+            <div class="voice-analysis-icon">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="voice-analysis-title">Session Analysis</h2>
+              <p class="voice-analysis-subtitle">Career Counselling Performance Report</p>
+            </div>
+          </div>
+          <div class="voice-analysis-body">
+            <div id="voice-analysis-loading" class="analysis-loading" style="display:none;">
+              <span class="spinner dark"></span> Generating analysis, please wait...
+            </div>
+            <div id="voice-analysis-results" class="analysis-results" style="display:none;">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
       </div><!-- /content-panel -->
     </div><!-- /main-area -->
   </div><!-- /app-layout -->

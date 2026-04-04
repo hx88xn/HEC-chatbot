@@ -1,5 +1,5 @@
 import { getToken } from "./api.js";
-import { showToast, openAnalysisModal } from "./app.js";
+import { showToast, openVoiceAnalysis } from "./app.js";
 
 let ws = null;
 let micContext = null;
@@ -394,7 +394,7 @@ btnEndCall.addEventListener("click", () => {
   endVoiceCall();
   showToast("Voice call ended — generating analysis...", "info");
   // Small delay to let backend save transcripts before requesting analysis
-  setTimeout(() => openAnalysisModal(), 1500);
+  setTimeout(() => openVoiceAnalysis(), 1500);
 });
 
 function escapeHtml(str) {

@@ -1520,6 +1520,77 @@ html, body {
   opacity: 0.85;
 }
 
+/* ── Voice Analysis Section (inline, not popup) ────────── */
+
+.voice-analysis-section {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-page);
+}
+
+.voice-analysis-section.visible {
+  display: flex;
+}
+
+.voice-analysis-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 32px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.voice-analysis-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--hec-green) 0%, var(--hec-green-light) 100%);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.voice-analysis-icon svg {
+  color: white;
+}
+
+.voice-analysis-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.voice-analysis-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+
+.voice-analysis-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px 40px;
+}
+
+.voice-analysis-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.voice-analysis-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.voice-analysis-body .analysis-results {
+  max-width: 720px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .sidebar { display: none; }
@@ -1531,4 +1602,6 @@ html, body {
   .mode-buttons { grid-template-columns: 1fr; }
   .transcript-entry { max-width: 95%; }
   .voice-call-card { padding: 32px 16px 24px; }
+  .voice-analysis-header { padding: 20px 16px; }
+  .voice-analysis-body { padding: 20px 16px; }
 }
