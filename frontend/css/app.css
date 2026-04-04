@@ -1481,78 +1481,6 @@ html, body {
   height: 18px;
 }
 
-/* Voice Call Transcript */
-.voice-call-transcript {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  scroll-behavior: smooth;
-}
-
-.voice-call-transcript::-webkit-scrollbar {
-  width: 4px;
-}
-
-.voice-call-transcript::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
-}
-
-.transcript-entry {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-width: 80%;
-  animation: fadeInUp 0.2s ease;
-}
-
-.transcript-entry.assistant {
-  align-self: flex-start;
-}
-
-.transcript-entry.user {
-  align-self: flex-end;
-}
-
-.transcript-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.transcript-entry.user .transcript-label {
-  text-align: right;
-}
-
-.transcript-text {
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 10px 14px;
-  border-radius: var(--radius-lg);
-}
-
-.transcript-entry.assistant .transcript-text {
-  background: var(--white);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  border-top-left-radius: 4px;
-}
-
-.transcript-entry.user .transcript-text {
-  background: linear-gradient(135deg, var(--hec-green) 0%, var(--hec-green-light) 100%);
-  color: white;
-  border-top-right-radius: 4px;
-}
-
-.transcript-entry.streaming {
-  opacity: 0.85;
-}
-
 /* ── Voice Analysis Section (inline, not popup) ────────── */
 
 .voice-analysis-section {
@@ -1678,10 +1606,6 @@ html, body {
   .voice-call-avatar { width: 56px; height: 56px; }
   .voice-call-avatar svg { width: 26px; height: 26px; }
   .voice-call-title { font-size: 17px; }
-
-  /* Transcript */
-  .transcript-entry { max-width: 95%; }
-  .transcript-entry .transcript-text { font-size: 13px; }
 
   /* Voice analysis */
   .voice-analysis-header { padding: 20px 16px; }

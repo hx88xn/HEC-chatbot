@@ -9,14 +9,11 @@ let playbackContext = null;
 let nextPlayTime = 0;
 let callActive = false;
 let audioQueue = [];
-let pendingUserTranscript = "";
-let pendingUserBubble = null;
 
 const callSection = document.getElementById("voice-call-section");
 const callStatus = document.getElementById("call-status");
 const callTimer = document.getElementById("call-timer");
 const btnEndCall = document.getElementById("btn-end-call");
-const transcriptEl = document.getElementById("call-transcript");
 
 let timerInterval = null;
 let callStartTime = null;
@@ -56,9 +53,6 @@ export async function startVoiceCall(sessionId) {
   callSection.classList.add("visible");
   callStatus.textContent = "Connecting...";
   callTimer.textContent = "00:00";
-  transcriptEl.innerHTML = "";
-  pendingUserTranscript = "";
-  pendingUserBubble = null;
 
   try {
     // 1. Set up AudioContext for mic capture at 8 kHz (matches g711_ulaw)
@@ -193,8 +187,6 @@ export async function startVoiceCall(sessionId) {
 
 // ── Handle events from backend ─────────────────────────────
 
-let currentAssistantTranscript = "";
-
 function handleServerEvent(data) {
   switch (data.event) {
     case "session_ready":
@@ -211,23 +203,6 @@ function handleServerEvent(data) {
 
     case "media":
       playAudioChunk(data.media.payload);
-      break;
-
-    case "transcript_delta":
-      if (data.role === "assistant") {
-        currentAssistantTranscript += data.delta;
-        updateStreamingTranscript();
-      }
-      break;
-
-    case "transcript_done":
-      if (data.role === "assistant") {
-        finalizeUserBubble();
-        finalizeTranscriptEntry("Counsellor", data.transcript || currentAssistantTranscript);
-        currentAssistantTranscript = "";
-      } else if (data.role === "user" && data.transcript) {
-        appendToUserBubble(data.transcript);
-      }
       break;
 
     case "error":
@@ -248,7 +223,7 @@ function clearAudioQueue() {
   }
 }
 
-// ── Audio playback ────────────────────��─────────────────────
+// ── Audio playback ─────────────────────────────────────────
 
 function playAudioChunk(pcmB64) {
   if (!playbackContext) return;
@@ -294,70 +269,6 @@ function playAudioChunk(pcmB64) {
   };
 }
 
-// ── Transcript display ──────────────────────────────────────
-
-function updateStreamingTranscript() {
-  let streaming = transcriptEl.querySelector(".streaming");
-  if (!streaming) {
-    streaming = document.createElement("div");
-    streaming.className = "transcript-entry assistant streaming";
-    streaming.innerHTML = `<span class="transcript-label">Counsellor</span><span class="transcript-text" dir="auto"></span>`;
-    transcriptEl.appendChild(streaming);
-  }
-  streaming.querySelector(".transcript-text").innerHTML =
-    escapeHtml(currentAssistantTranscript) + '<span class="cursor"></span>';
-  transcriptEl.scrollTop = transcriptEl.scrollHeight;
-}
-
-function finalizeTranscriptEntry(label, text) {
-  // Remove streaming entry
-  const streaming = transcriptEl.querySelector(".streaming");
-  if (streaming) streaming.remove();
-  addTranscriptEntry(label, text);
-}
-
-function addTranscriptEntry(label, text) {
-  const div = document.createElement("div");
-  div.className = `transcript-entry ${label === "You" ? "user" : "assistant"}`;
-  div.innerHTML = `<span class="transcript-label">${label}</span><span class="transcript-text" dir="auto">${escapeHtml(text)}</span>`;
-  transcriptEl.appendChild(div);
-  transcriptEl.scrollTop = transcriptEl.scrollHeight;
-}
-
-function appendToUserBubble(text) {
-  if (!text || !text.trim()) return;
-
-  if (pendingUserTranscript) {
-    pendingUserTranscript += " " + text.trim();
-  } else {
-    pendingUserTranscript = text.trim();
-  }
-
-  if (!pendingUserBubble) {
-    pendingUserBubble = document.createElement("div");
-    pendingUserBubble.className = "transcript-entry user";
-    pendingUserBubble.innerHTML = `<span class="transcript-label">You</span><span class="transcript-text" dir="auto"></span>`;
-    // Insert before any streaming assistant entry to maintain correct order
-    // (user transcript often arrives after assistant starts streaming)
-    const streaming = transcriptEl.querySelector(".streaming");
-    if (streaming) {
-      transcriptEl.insertBefore(pendingUserBubble, streaming);
-    } else {
-      transcriptEl.appendChild(pendingUserBubble);
-    }
-  }
-
-  pendingUserBubble.querySelector(".transcript-text").textContent = pendingUserTranscript;
-  transcriptEl.scrollTop = transcriptEl.scrollHeight;
-}
-
-function finalizeUserBubble() {
-  if (pendingUserTranscript && pendingUserBubble) {
-    pendingUserTranscript = "";
-    pendingUserBubble = null;
-  }
-}
-
 // ── Timer ───────────────────────────────────────────────────
 
 function startTimer() {
@@ -374,7 +285,6 @@ function startTimer() {
 
 export function endVoiceCall() {
   callActive = false;
-  finalizeUserBubble();
 
   if (timerInterval) {
     clearInterval(timerInterval);
@@ -423,7 +333,6 @@ export function endVoiceCall() {
   }
 
   nextPlayTime = 0;
-  currentAssistantTranscript = "";
 
   callSection.classList.remove("active");
   callSection.classList.remove("visible");
@@ -436,8 +345,3 @@ btnEndCall.addEventListener("click", () => {
   // Small delay to let backend save transcripts before requesting analysis
   setTimeout(() => openVoiceAnalysis(), 1500);
 });
-
-function escapeHtml(str) {
-  if (!str) return "";
-  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
