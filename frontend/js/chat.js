@@ -57,7 +57,7 @@ export function triggerGreeting() {
       scrollToBottom();
     },
     (err) => {
-      finalizeStreamingBubble(assistantBubble, "Welcome! I'm your HEC Career Counsellor. Let's explore the best career path for you. Could you tell me a bit about yourself and your interests?");
+      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM's Career Counsellor. Let's explore the best career path for you. Could you tell me a bit about yourself and your interests?");
       isStreaming = false;
       btnSend.disabled = false;
     }

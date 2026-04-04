@@ -155,7 +155,7 @@ async def generate_session_analysis(history: list[dict]) -> dict:
         transcript += f"[{role}]\n{msg['content']}\n\n"
 
     system_prompt = """
-You are a professional quality assurance analyst evaluating a career counseling session between a student (USER) and the HEC AI Career Counsellor (AGENT).
+You are a professional quality assurance analyst evaluating a career counseling session between a student (USER) and the PM's Career Counsellor (AGENT).
 
 Read the transcript and evaluate the session across key performance indicators. Return a STRICT JSON object matching the exact structure below. All <score> fields MUST be strings containing percentages (e.g., "85%").
 

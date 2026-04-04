@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 import session_store
 from routers import auth_router, chat_router, marksheet_router, transcribe_router
 
-app = FastAPI(title="HEC Career Counsellor API", version="1.0.0")
+app = FastAPI(title="PM's Career Counsellor API", version="1.0.0")
 
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "static")
 
