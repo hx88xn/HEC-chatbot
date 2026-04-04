@@ -89,7 +89,7 @@ async def realtime_websocket(websocket: WebSocket):
 
     try:
         async with websockets.connect(
-            OPENAI_REALTIME_URL, additional_headers=headers
+            OPENAI_REALTIME_URL, extra_headers=headers
         ) as openai_ws:
             # ── Step 3: Initialize session ──
             session_update = {
