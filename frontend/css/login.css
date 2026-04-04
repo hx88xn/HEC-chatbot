@@ -254,10 +254,24 @@ body::before {
 
 @media (max-width: 480px) {
   body {
-    padding: 16px;
+    padding: 0;
+    /* fixed attachment breaks on mobile Safari — use scroll instead */
+    background-attachment: scroll;
+    background-position: 85% center;
+    align-items: flex-start;
+  }
+
+  /* Overlay lighter on mobile so image is more visible */
+  body::before {
+    background: linear-gradient(145deg, rgba(0,77,38,0.55) 0%, rgba(0,102,51,0.45) 50%, rgba(0,136,68,0.5) 100%);
   }
 
   .login-card {
+    max-width: 100%;
+    border-radius: 0;
     padding: 36px 24px 32px;
+    min-height: 100vh;
+    /* Semi-transparent card so background image peeks through */
+    background: rgba(255,255,255,0.95);
   }
 }
