@@ -223,7 +223,7 @@ async def generate_session_analysis(history: list[dict]) -> dict:
         transcript += f"[{role}]\n{msg['content']}\n\n"
         turn_count += 1
 
-    system_prompt = """You are a supportive educational quality reviewer for HEC Pakistan's AI Career Counsellor programme. Evaluate the counselling session between a Pakistani Intermediate student (STUDENT) and the AI counsellor (AGENT).
+    system_prompt = """You are a supportive educational quality reviewer for the PM Youth Program Career Counsellor Portal. Evaluate the counselling session between a Pakistani Intermediate student (STUDENT) and the AI counsellor (AGENT).
 
 SCORING PHILOSOPHY:
 - Be generous and encouraging. This is an AI counsellor doing its best — reward good intent and partial coverage.

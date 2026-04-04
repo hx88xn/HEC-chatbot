@@ -44,7 +44,7 @@ export function triggerGreeting() {
 
   apiStream(
     "/chat/stream",
-    { session_id: sessionId, message: "Hello, I have uploaded my marksheet. Please greet me and start the counselling session." },
+    { session_id: sessionId, message: "Hello, I have uploaded my marksheet. Please greet me warmly as the PM Youth Program Career Counsellor Portal assistant and start the counselling session." },
     (delta) => {
       fullText += delta;
       renderStreamingBubble(assistantBubble, fullText);
@@ -57,7 +57,7 @@ export function triggerGreeting() {
       scrollToBottom();
     },
     (err) => {
-      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM Youth Program's Career Counsellor. Let's explore the best career path for you after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
+      finalizeStreamingBubble(assistantBubble, "Welcome to the PM Youth Program Career Counsellor Portal! I'm your AI career counsellor, here to help you find the best path forward after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
       isStreaming = false;
       btnSend.disabled = false;
     }
