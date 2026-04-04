@@ -34,6 +34,11 @@ export function sendTextMessage(text) {
 /** Trigger AI greeting without showing a user bubble */
 export function triggerGreeting() {
   if (isStreaming) return;
+
+  // Show instant welcome message
+  appendMessage("assistant", "Welcome to **PM's Career Counsellor Portal**! I'm here to help you explore the best career paths based on your academic profile.");
+  scrollToBottom();
+
   isStreaming = true;
   btnSend.disabled = true;
 
@@ -57,7 +62,7 @@ export function triggerGreeting() {
       scrollToBottom();
     },
     (err) => {
-      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM's Career Counsellor. Let's explore the best career path for you after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
+      finalizeStreamingBubble(assistantBubble, "Let's explore the best career path for you after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
       isStreaming = false;
       btnSend.disabled = false;
     }
