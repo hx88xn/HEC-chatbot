@@ -152,9 +152,6 @@ async def realtime_websocket(websocket: WebSocket):
             await websocket.send_json({"event": "session_ready"})
 
             # ── Step 4: Bidirectional relay ──
-            # Collect transcripts so we can save them to session history
-            voice_transcripts: list[dict] = []
-
             async def frontend_to_openai():
                 """Relay audio from browser → OpenAI."""
                 try:
@@ -221,8 +218,8 @@ async def realtime_websocket(websocket: WebSocket):
                         elif rtype == "response.audio_transcript.done":
                             transcript = response.get("transcript", "")
                             if transcript:
-                                voice_transcripts.append(
-                                    {"role": "assistant", "content": transcript}
+                                session_store.append_history(
+                                    session_id, "assistant", transcript
                                 )
                             await websocket.send_json(
                                 {
@@ -238,8 +235,8 @@ async def realtime_websocket(websocket: WebSocket):
                         ):
                             transcript = response.get("transcript", "")
                             if transcript:
-                                voice_transcripts.append(
-                                    {"role": "user", "content": transcript}
+                                session_store.append_history(
+                                    session_id, "user", transcript
                                 )
                             await websocket.send_json(
                                 {
@@ -270,11 +267,6 @@ async def realtime_websocket(websocket: WebSocket):
                 return_exceptions=True,
             )
 
-            # Save voice transcripts into session history for analysis
-            for entry in voice_transcripts:
-                session_store.append_history(
-                    session_id, entry["role"], entry["content"]
-                )
 
     except Exception as e:
         logger.error("Realtime WS error: %s", e)

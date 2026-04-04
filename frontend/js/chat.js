@@ -122,7 +122,7 @@ function appendMessage(role, text, streaming = false) {
   wrapper.innerHTML = `
     <div class="message-avatar">${avatarIcon}</div>
     <div class="message-content">
-      <div class="message-bubble" data-streaming="${streaming}">
+      <div class="message-bubble" dir="auto" data-streaming="${streaming}">
         ${streaming ? '<span class="cursor"></span>' : renderMarkdown(text)}
       </div>
       <span class="message-time">${now}</span>

@@ -301,7 +301,7 @@ function updateStreamingTranscript() {
   if (!streaming) {
     streaming = document.createElement("div");
     streaming.className = "transcript-entry assistant streaming";
-    streaming.innerHTML = `<span class="transcript-label">Counsellor</span><span class="transcript-text"></span>`;
+    streaming.innerHTML = `<span class="transcript-label">Counsellor</span><span class="transcript-text" dir="auto"></span>`;
     transcriptEl.appendChild(streaming);
   }
   streaming.querySelector(".transcript-text").innerHTML =
@@ -319,7 +319,7 @@ function finalizeTranscriptEntry(label, text) {
 function addTranscriptEntry(label, text) {
   const div = document.createElement("div");
   div.className = `transcript-entry ${label === "You" ? "user" : "assistant"}`;
-  div.innerHTML = `<span class="transcript-label">${label}</span><span class="transcript-text">${escapeHtml(text)}</span>`;
+  div.innerHTML = `<span class="transcript-label">${label}</span><span class="transcript-text" dir="auto">${escapeHtml(text)}</span>`;
   transcriptEl.appendChild(div);
   transcriptEl.scrollTop = transcriptEl.scrollHeight;
 }
@@ -336,7 +336,7 @@ function appendToUserBubble(text) {
   if (!pendingUserBubble) {
     pendingUserBubble = document.createElement("div");
     pendingUserBubble.className = "transcript-entry user";
-    pendingUserBubble.innerHTML = `<span class="transcript-label">You</span><span class="transcript-text"></span>`;
+    pendingUserBubble.innerHTML = `<span class="transcript-label">You</span><span class="transcript-text" dir="auto"></span>`;
     // Insert before any streaming assistant entry to maintain correct order
     // (user transcript often arrives after assistant starts streaming)
     const streaming = transcriptEl.querySelector(".streaming");
