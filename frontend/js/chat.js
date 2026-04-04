@@ -57,7 +57,7 @@ export function triggerGreeting() {
       scrollToBottom();
     },
     (err) => {
-      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM's Career Counsellor. Let's explore the best career path for you. Could you tell me a bit about yourself and your interests?");
+      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM's Career Counsellor. Let's explore the best career path for you after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
       isStreaming = false;
       btnSend.disabled = false;
     }
@@ -139,7 +139,45 @@ function renderStreamingBubble(bubble, text) {
 
 function finalizeStreamingBubble(bubble, text) {
   bubble.removeAttribute("data-streaming");
-  bubble.innerHTML = renderMarkdown(text);
+  const { cleanText, suggestions } = parseSuggestions(text);
+  bubble.innerHTML = renderMarkdown(cleanText);
+
+  if (suggestions.length > 0) {
+    const container = document.createElement("div");
+    container.className = "suggestion-chips";
+    suggestions.forEach((s) => {
+      const chip = document.createElement("button");
+      chip.className = "suggestion-chip";
+      chip.textContent = s;
+      chip.addEventListener("click", () => {
+        container.remove();
+        sendTextMessage(s);
+      });
+      container.appendChild(chip);
+    });
+    // Insert after the message-content (sibling of bubble's parent)
+    const messageContent = bubble.closest(".message-content");
+    if (messageContent) {
+      messageContent.appendChild(container);
+    }
+  }
+}
+
+function parseSuggestions(text) {
+  const match = text.match(/\[SUGGESTIONS:\s*"([^"]+)"(?:\s*\|\s*"([^"]+)")*\s*\]/);
+  if (!match) return { cleanText: text, suggestions: [] };
+
+  const fullMatch = match[0];
+  const cleanText = text.replace(fullMatch, "").trimEnd();
+
+  // Extract all quoted suggestions
+  const suggestions = [];
+  const re = /"([^"]+)"/g;
+  let m;
+  while ((m = re.exec(fullMatch)) !== null) {
+    suggestions.push(m[1]);
+  }
+  return { cleanText, suggestions };
 }
 
 function renderMarkdown(text) {

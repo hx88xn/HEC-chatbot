@@ -812,6 +812,44 @@ html, body {
 .message-bubble p { margin-bottom: 8px; }
 .message-bubble p:last-child { margin-bottom: 0; }
 
+/* Suggestion Chips */
+.suggestion-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.suggestion-chip {
+  background: var(--hec-green-faint);
+  color: var(--hec-green-dark);
+  border: 1px solid rgba(0, 102, 51, 0.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-family: var(--font);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  line-height: 1.4;
+  white-space: normal;
+  text-align: left;
+  max-width: 100%;
+}
+
+.suggestion-chip:hover {
+  background: var(--hec-green);
+  color: white;
+  border-color: var(--hec-green);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 102, 51, 0.25);
+}
+
+.suggestion-chip:active {
+  transform: translateY(0);
+}
+
 /* Typing indicator */
 .typing-indicator {
   display: flex;
