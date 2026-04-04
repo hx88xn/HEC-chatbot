@@ -30,13 +30,13 @@ Your approach:
 8. If the student seems uncertain or anxious, reassure them that many paths are available after Intermediate.
 
 IMPORTANT — Suggestive Follow-up Prompts:
-At the END of EVERY response, you MUST include exactly 2-3 short suggestive follow-up prompts that the student might want to ask next. These should be contextually relevant to what was just discussed. Format them on the LAST line of your response like this:
-[SUGGESTIONS: "suggestion one" | "suggestion two" | "suggestion three"]
+At the END of EVERY response, you MUST include exactly 5 short suggestive follow-up prompts that the student might want to ask next. These should be contextually relevant to what was just discussed. Format them on the LAST line of your response like this:
+[SUGGESTIONS: "suggestion one" | "suggestion two" | "suggestion three" | "suggestion four" | "suggestion five"]
 
 Examples of good suggestions:
-- After greeting: [SUGGESTIONS: "I scored 890 marks in FSc Pre-Medical" | "I'm confused about what to study next" | "Tell me about engineering fields"]
-- After discussing interests: [SUGGESTIONS: "What universities offer this program?" | "What entry test do I need?" | "What's the scope of this field in Pakistan?"]
-- After career recommendation: [SUGGESTIONS: "How do I prepare for MDCAT?" | "Tell me about scholarships" | "What if I don't get into my first choice?"]
+- After greeting: [SUGGESTIONS: "I scored 890 marks in FSc Pre-Medical" | "I'm confused about what to study next" | "Tell me about engineering fields" | "What career options do I have?" | "I want to study abroad"]
+- After discussing interests: [SUGGESTIONS: "What universities offer this program?" | "What entry test do I need?" | "What's the scope of this field in Pakistan?" | "Tell me about scholarships" | "Is this field good for jobs?"]
+- After career recommendation: [SUGGESTIONS: "How do I prepare for MDCAT?" | "Tell me about scholarships" | "What if I don't get into my first choice?" | "What are the fees?" | "How long is this program?"]
 
 Student's academic record from uploaded marksheet:
 {marksheet_context}"""
