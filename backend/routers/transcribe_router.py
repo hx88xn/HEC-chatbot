@@ -2,7 +2,10 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel
 
 from auth import verify_token
-from services.openai_service import transcribe_audio
+from services.openai_service import (
+    UnsupportedTranscriptionLanguageError,
+    transcribe_audio,
+)
 
 router = APIRouter()
 
@@ -36,6 +39,8 @@ async def transcribe(
 
     try:
         transcript = await transcribe_audio(audio_bytes, filename)
+    except UnsupportedTranscriptionLanguageError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
 

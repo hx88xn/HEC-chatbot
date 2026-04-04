@@ -1,4 +1,6 @@
 import io
+import json
+import re
 from typing import AsyncIterator
 
 from openai import AsyncOpenAI
@@ -9,6 +11,14 @@ client = AsyncOpenAI(api_key=settings.openai_api_key)
 
 CHAT_MODEL = "gpt-4o"
 TRANSCRIPTION_MODEL = "gpt-4o-transcribe"
+LANGUAGE_CHECK_MODEL = "gpt-4o-mini"
+
+DEVANAGARI_PATTERN = re.compile(r"[\u0900-\u097F]")
+URDU_SCRIPT_PATTERN = re.compile(r"[\u0600-\u06FF]")
+
+
+class UnsupportedTranscriptionLanguageError(Exception):
+    pass
 
 
 async def stream_chat_response(messages: list[dict]) -> AsyncIterator[str]:
@@ -33,8 +43,67 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
         model=TRANSCRIPTION_MODEL,
         file=audio_file,
         response_format="text",
+        prompt=(
+            "Transcribe only spoken content in English or Urdu. "
+            "Do not output Hindi."
+        ),
     )
-    return response.strip() if isinstance(response, str) else response.text.strip()
+    transcript = response.strip() if isinstance(response, str) else response.text.strip()
+    await ensure_transcript_language_allowed(transcript)
+    return transcript
+
+
+async def ensure_transcript_language_allowed(transcript: str) -> None:
+    if not transcript:
+        return
+
+    # Hindi in Devanagari can be safely blocked without a model call.
+    if DEVANAGARI_PATTERN.search(transcript):
+        raise UnsupportedTranscriptionLanguageError(
+            "Only English and Urdu voice transcription is supported."
+        )
+
+    # Pure Urdu script is allowed directly.
+    if URDU_SCRIPT_PATTERN.search(transcript):
+        return
+
+    language = await classify_transcript_language(transcript)
+    if language in {"english", "urdu", "mixed_english_urdu"}:
+        return
+
+    raise UnsupportedTranscriptionLanguageError(
+        "Only English and Urdu voice transcription is supported."
+    )
+
+
+async def classify_transcript_language(transcript: str) -> str:
+    response = await client.chat.completions.create(
+        model=LANGUAGE_CHECK_MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "Classify the transcript language into one label: "
+                    "english, urdu, mixed_english_urdu, hindi, or other. "
+                    "Return strict JSON: {\"label\":\"<one_label>\"}."
+                ),
+            },
+            {"role": "user", "content": transcript[:2000]},
+        ],
+        temperature=0,
+        response_format={"type": "json_object"},
+    )
+
+    content = response.choices[0].message.content or ""
+    try:
+        parsed = json.loads(content)
+    except json.JSONDecodeError:
+        return "other"
+
+    label = str(parsed.get("label", "")).strip().lower()
+    if label in {"english", "urdu", "mixed_english_urdu", "hindi", "other"}:
+        return label
+    return "other"
 
 
 async def call_gpt4o_vision(image_bytes: bytes, prompt: str) -> str:
@@ -143,8 +212,6 @@ async def summarize_text(text: str) -> str:
 
 
 async def generate_session_analysis(history: list[dict]) -> dict:
-    import json
-    
     # Format the transcript chronologically
     transcript = ""
     for msg in history:
