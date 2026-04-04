@@ -1089,6 +1089,33 @@ html, body {
   opacity: 0.9;
 }
 
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--hec-green);
+  border: 1.5px solid var(--hec-green);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-outline:hover {
+  background: var(--hec-green);
+  color: white;
+}
+
+/* Voice analysis action buttons */
+.voice-analysis-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 24px 0 8px;
+}
+
 /* ── Analysis Modal ─────────────────────────────────────────── */
 
 .modal-overlay {

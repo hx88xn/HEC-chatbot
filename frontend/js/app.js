@@ -38,6 +38,15 @@ const analysisResults = document.getElementById("analysis-results");
 // Voice call section
 const voiceCallSection = document.getElementById("voice-call-section");
 
+// Mode switching buttons
+const btnStartVoice = document.getElementById("btn-start-voice");
+const btnBackToChat = document.getElementById("btn-back-to-chat");
+const btnNewVoiceCall = document.getElementById("btn-new-voice-call");
+const voiceAnalysisSection = document.getElementById("voice-analysis-section");
+const voiceAnalysisActions = document.getElementById("voice-analysis-actions");
+
+let chatInitialized = false;
+
 // Initialize marksheet upload
 initMarksheet(sessionId, (summary, mode) => {
   // Mark upload step done
@@ -50,18 +59,60 @@ initMarksheet(sessionId, (summary, mode) => {
   // Enable the analyze button now that session has started
   btnAnalyze.disabled = false;
 
+  // Always init chat so it's ready for switching
+  ensureChatInitialized();
+
   if (mode === "voice") {
-    // Start voice call mode
     startVoiceCall(sessionId);
   } else {
-    // Default: text chat mode
-    chatSection.classList.add("visible");
-    initChat(sessionId);
-    initVoice(sessionId, (transcript) => {
-      sendTextMessage(transcript);
-    });
+    showChatMode();
     triggerGreeting();
   }
+});
+
+function ensureChatInitialized() {
+  if (chatInitialized) return;
+  chatInitialized = true;
+  initChat(sessionId);
+  initVoice(sessionId, (transcript) => {
+    sendTextMessage(transcript);
+  });
+}
+
+function showChatMode() {
+  // Hide voice sections
+  voiceCallSection.classList.remove("visible", "active");
+  voiceAnalysisSection.classList.remove("visible");
+
+  // Show chat
+  chatSection.classList.add("visible");
+  btnStartVoice.style.display = "";
+}
+
+function showVoiceMode() {
+  // Hide chat
+  chatSection.classList.remove("visible");
+  btnStartVoice.style.display = "none";
+
+  // Hide analysis if visible
+  voiceAnalysisSection.classList.remove("visible");
+
+  startVoiceCall(sessionId);
+}
+
+// Voice Call button in topbar (from chat mode)
+btnStartVoice.addEventListener("click", () => {
+  showVoiceMode();
+});
+
+// Back to Chat after voice analysis
+btnBackToChat.addEventListener("click", () => {
+  showChatMode();
+});
+
+// New Voice Call after voice analysis
+btnNewVoiceCall.addEventListener("click", () => {
+  showVoiceMode();
 });
 
 // Logout
@@ -82,7 +133,6 @@ document.getElementById("btn-new-session").addEventListener("click", () => {
 // ── Session Analysis ─────────────────────────────────────
 
 // Voice analysis inline elements
-const voiceAnalysisSection = document.getElementById("voice-analysis-section");
 const voiceAnalysisLoading = document.getElementById("voice-analysis-loading");
 const voiceAnalysisResults = document.getElementById("voice-analysis-results");
 
@@ -111,6 +161,7 @@ export async function openVoiceAnalysis() {
   voiceAnalysisLoading.style.display = "flex";
   voiceAnalysisResults.style.display = "none";
   voiceAnalysisResults.innerHTML = "";
+  voiceAnalysisActions.style.display = "none";
 
   try {
     const data = await fetchAnalysis();
@@ -119,6 +170,7 @@ export async function openVoiceAnalysis() {
     renderAnalysisErrorInto(voiceAnalysisResults, err);
   } finally {
     voiceAnalysisLoading.style.display = "none";
+    voiceAnalysisActions.style.display = "flex";
   }
 }
 
