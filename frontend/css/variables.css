@@ -1,23 +1,23 @@
 :root {
-  /* HEC Brand Colors */
-  --hec-green: #006633;
-  --hec-green-light: #008844;
-  --hec-green-dark: #004d26;
-  --hec-green-faint: #e8f5ee;
-  --hec-gold: #c8a94a;
-  --hec-gold-light: #e8c86a;
+  /* PM Youth Program Brand Colors */
+  --hec-green: #0d5e8a;
+  --hec-green-light: #1480b6;
+  --hec-green-dark: #073d5c;
+  --hec-green-faint: #e6f1f8;
+  --hec-gold: #d4a017;
+  --hec-gold-light: #f0c94d;
 
   /* Neutrals */
   --white: #ffffff;
-  --bg-page: #f0f4f1;
+  --bg-page: #eef3f7;
   --bg-card: #ffffff;
-  --border: #d0dbd4;
-  --border-light: #e8efe9;
+  --border: #c8d8e4;
+  --border-light: #e2ecf2;
 
   /* Text */
-  --text-primary: #1a2e1f;
-  --text-secondary: #4a6054;
-  --text-muted: #7a9080;
+  --text-primary: #1a2433;
+  --text-secondary: #3d5468;
+  --text-muted: #6d8599;
 
   /* Status */
   --success: #1a8a3a;
@@ -28,9 +28,9 @@
   --warning-bg: #fff8e6;
 
   /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(0, 102, 51, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 102, 51, 0.12);
-  --shadow-lg: 0 8px 32px rgba(0, 102, 51, 0.16);
+  --shadow-sm: 0 1px 4px rgba(13, 94, 138, 0.08);
+  --shadow-md: 0 4px 16px rgba(13, 94, 138, 0.12);
+  --shadow-lg: 0 8px 32px rgba(13, 94, 138, 0.16);
 
   /* Typography */
   --font: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;

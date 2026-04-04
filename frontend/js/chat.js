@@ -57,7 +57,7 @@ export function triggerGreeting() {
       scrollToBottom();
     },
     (err) => {
-      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM's Career Counsellor. Let's explore the best career path for you after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
+      finalizeStreamingBubble(assistantBubble, "Welcome! I'm PM Youth Program's Career Counsellor. Let's explore the best career path for you after Intermediate. Could you tell me about your subjects and interests?\n\n[SUGGESTIONS: \"I'm in FSc Pre-Medical\" | \"I'm in FSc Pre-Engineering\" | \"I need help choosing a field\"]");
       isStreaming = false;
       btnSend.disabled = false;
     }

@@ -7,10 +7,10 @@ services:
       dockerfile: backend/Dockerfile
     env_file: .env
     ports:
-      - "7013:7013"
+      - "7014:7014"
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:7013/api/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:7014/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -12,4 +12,4 @@ COPY backend/ .
 # Copy frontend files into the backend image for static serving
 COPY frontend/ ./static/
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7013"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7014"]
