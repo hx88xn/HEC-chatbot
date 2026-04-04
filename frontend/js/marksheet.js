@@ -123,17 +123,32 @@ export function initMarksheet(sessionId, onSuccess) {
         Marksheet analyzed successfully
       </div>
       <div class="success-summary">${escapeHtml(summary)}</div>
-      <button class="btn-continue" id="btn-continue">
-        Continue to Career Counselling
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </button>
+      <div class="mode-selection">
+        <p class="mode-selection-label">Choose how you'd like to proceed:</p>
+        <div class="mode-buttons">
+          <button class="btn-mode btn-mode-chat" id="btn-mode-chat">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span class="btn-mode-title">Text Chat</span>
+            <span class="btn-mode-desc">Type your questions</span>
+          </button>
+          <button class="btn-mode btn-mode-voice" id="btn-mode-voice">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span class="btn-mode-title">Voice Call</span>
+            <span class="btn-mode-desc">Talk with AI counsellor</span>
+          </button>
+        </div>
+      </div>
     `;
 
-    document.getElementById("btn-continue").addEventListener("click", () => {
-      onSuccess(summary);
+    document.getElementById("btn-mode-chat").addEventListener("click", () => {
+      onSuccess(summary, "chat");
+    });
+    document.getElementById("btn-mode-voice").addEventListener("click", () => {
+      onSuccess(summary, "voice");
     });
   }
 

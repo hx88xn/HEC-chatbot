@@ -33,3 +33,14 @@ def verify_token(
         return username
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+
+def verify_token_raw(token: str) -> str:
+    """Verify a raw JWT string (for WebSocket auth where Depends is unavailable)."""
+    payload = jwt.decode(
+        token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm]
+    )
+    username: str = payload.get("sub")
+    if not username:
+        raise ValueError("Invalid token")
+    return username

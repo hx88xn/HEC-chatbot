@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 import session_store
-from routers import auth_router, chat_router, marksheet_router, transcribe_router
+from routers import auth_router, chat_router, marksheet_router, transcribe_router, realtime_router
 
 app = FastAPI(title="PM's Career Counsellor API", version="1.0.0")
 
@@ -25,6 +25,7 @@ app.include_router(auth_router.router, prefix="/api/auth", tags=["auth"])
 app.include_router(marksheet_router.router, prefix="/api/marksheet", tags=["marksheet"])
 app.include_router(chat_router.router, prefix="/api/chat", tags=["chat"])
 app.include_router(transcribe_router.router, prefix="/api", tags=["transcribe"])
+app.include_router(realtime_router.router, prefix="/api/realtime")
 
 
 @app.get("/api/health", tags=["health"])

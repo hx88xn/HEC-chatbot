@@ -2,6 +2,7 @@ import { isTokenValid, clearToken, apiFetch } from "./api.js";
 import { initMarksheet } from "./marksheet.js";
 import { initChat, sendTextMessage, triggerGreeting } from "./chat.js";
 import { initVoice } from "./voice.js";
+import { startVoiceCall, endVoiceCall } from "./voice-call.js";
 
 // Guard: redirect to login if not authenticated
 if (!isTokenValid()) {
@@ -34,27 +35,33 @@ const btnCloseAnalysis = document.getElementById("btn-close-analysis");
 const analysisLoading = document.getElementById("analysis-loading");
 const analysisResults = document.getElementById("analysis-results");
 
+// Voice call section
+const voiceCallSection = document.getElementById("voice-call-section");
+
 // Initialize marksheet upload
-initMarksheet(sessionId, (summary) => {
-  // Transition to chat
+initMarksheet(sessionId, (summary, mode) => {
+  // Mark upload step done
   uploadSection.style.display = "none";
-  chatSection.classList.add("visible");
   stepUpload.classList.remove("active");
   stepUpload.classList.add("done");
   stepUpload.querySelector(".step-num").textContent = "✓";
   stepChat.classList.add("active");
-  
+
   // Enable the analyze button now that session has started
   btnAnalyze.disabled = false;
 
-  // Initialize chat + voice
-  initChat(sessionId);
-  initVoice(sessionId, (transcript) => {
-    sendTextMessage(transcript);
-  });
-
-  // Trigger AI greeting
-  triggerGreeting();
+  if (mode === "voice") {
+    // Start voice call mode
+    startVoiceCall(sessionId);
+  } else {
+    // Default: text chat mode
+    chatSection.classList.add("visible");
+    initChat(sessionId);
+    initVoice(sessionId, (transcript) => {
+      sendTextMessage(transcript);
+    });
+    triggerGreeting();
+  }
 });
 
 // Logout
@@ -74,7 +81,7 @@ document.getElementById("btn-new-session").addEventListener("click", () => {
 
 // ── Session Analysis ─────────────────────────────────────
 
-btnAnalyze.addEventListener("click", async () => {
+export async function openAnalysisModal() {
   analysisModal.style.display = "flex";
   analysisLoading.style.display = "flex";
   analysisResults.style.display = "none";
@@ -102,7 +109,9 @@ btnAnalyze.addEventListener("click", async () => {
     analysisLoading.style.display = "none";
     btnAnalyze.disabled = false;
   }
-});
+}
+
+btnAnalyze.addEventListener("click", openAnalysisModal);
 
 btnCloseAnalysis.addEventListener("click", () => {
   analysisModal.style.display = "none";
@@ -115,31 +124,42 @@ analysisModal.addEventListener("click", (e) => {
 function renderAnalysisResults(data) {
   const categories = [
     {
-      key: "core_counseling",
-      title: "Core Counseling Performance",
+      key: "academic_understanding",
+      title: "Academic Understanding",
       labels: {
-        intent_recognition_accuracy: "Intent Recognition Accuracy",
-        career_fit_analysis_quality: "Career Fit Analysis Quality",
-        task_completion_rate: "Task Completion Rate",
-        marksheet_context_utilization: "Marksheet Context Utilization",
+        marksheet_analysis_depth: "Marksheet Analysis Depth",
+        subject_strength_identification: "Subject Strength Identification",
+        academic_stream_awareness: "Academic Stream Awareness",
       },
     },
     {
-      key: "conversational_quality",
-      title: "Conversational Quality",
+      key: "career_guidance_quality",
+      title: "Career Guidance Quality",
       labels: {
-        context_retention: "Context Retention",
-        tone_appropriateness: "Tone Appropriateness",
-        empathy_score: "Empathy Score",
-        clarity: "Clarity",
+        career_path_relevance: "Career Path Relevance",
+        program_knowledge: "Program & University Knowledge",
+        entry_test_guidance: "Entry Test Guidance",
+        scholarship_financial_guidance: "Scholarship & Financial Guidance",
+        merit_cutoff_awareness: "Merit Cut-off Awareness",
       },
     },
     {
-      key: "compliance_and_ux",
-      title: "Compliance & UX",
+      key: "student_engagement",
+      title: "Student Engagement",
+      labels: {
+        question_quality: "Question Quality",
+        personalization: "Personalization",
+        empathy_and_encouragement: "Empathy & Encouragement",
+        clarity_of_communication: "Clarity of Communication",
+      },
+    },
+    {
+      key: "compliance_and_completeness",
+      title: "Compliance & Completeness",
       labels: {
         student_confusion_rate: "Student Confusion Rate",
         hec_guidelines_adherence: "HEC Guidelines Adherence",
+        session_completeness: "Session Completeness",
       },
     },
   ];
@@ -154,13 +174,17 @@ function renderAnalysisResults(data) {
     html += `<div class="analysis-category-title">${cat.title}</div>`;
     html += `<div class="kpi-grid">`;
 
+    // Fields where lower score = better
+    const invertedFields = new Set(["student_confusion_rate"]);
+
     for (const [field, label] of Object.entries(cat.labels)) {
       const value = section[field] || "N/A";
       const numericValue = parseInt(value);
-      const colorClass = getScoreColor(numericValue);
+      const inverted = invertedFields.has(field);
+      const colorClass = getScoreColor(numericValue, inverted);
       html += `
         <div class="kpi-item">
-          <span class="kpi-label">${label}</span>
+          <span class="kpi-label">${label}${inverted ? ' <span style="font-size:10px;color:var(--text-muted);">(lower is better)</span>' : ""}</span>
           <span class="kpi-value ${colorClass}">${escapeHtml(value)}</span>
           ${!isNaN(numericValue) ? `<div class="kpi-bar"><div class="kpi-bar-fill ${colorClass}" style="width: ${numericValue}%"></div></div>` : ""}
         </div>`;
@@ -191,8 +215,14 @@ function renderAnalysisError(message) {
   analysisResults.style.display = "block";
 }
 
-function getScoreColor(value) {
+function getScoreColor(value, inverted = false) {
   if (isNaN(value)) return "";
+  if (inverted) {
+    // Lower is better: <=20 = green, <=40 = yellow, >40 = red
+    if (value <= 20) return "score-high";
+    if (value <= 40) return "score-mid";
+    return "score-low";
+  }
   if (value >= 80) return "score-high";
   if (value >= 60) return "score-mid";
   return "score-low";

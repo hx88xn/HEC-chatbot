@@ -222,28 +222,52 @@ async def generate_session_analysis(history: list[dict]) -> dict:
         transcript += f"[{role}]\n{msg['content']}\n\n"
 
     system_prompt = """
-You are a professional quality assurance analyst evaluating a career counseling session between a student (USER) and the PM's Career Counsellor (AGENT).
+You are a professional quality assurance analyst evaluating a career counseling session between a Pakistani Intermediate student (USER) and the PM's Career Counsellor AI (AGENT).
 
-Read the transcript and evaluate the session across key performance indicators. Return a STRICT JSON object matching the exact structure below. All <score> fields MUST be strings containing percentages (e.g., "85%").
+Read the transcript and evaluate the session across educational career-counselling KPIs. Return a STRICT JSON object matching the exact structure below. Every score value MUST be a string like "85%" — just the percentage, nothing else. Higher is better for all fields EXCEPT student_confusion_rate (lower is better).
+
+Scoring guidelines for each field:
+- marksheet_analysis_depth: How well the counsellor interpreted the student's academic record (subjects, marks, strengths/weaknesses)
+- subject_strength_identification: Accuracy in identifying the student's strong and weak subjects from their results
+- academic_stream_awareness: Understanding of the student's Intermediate group (FSc Pre-Med/Pre-Eng, ICS, ICom, FA, DAE) and its implications
+- career_path_relevance: How relevant the recommended career paths are to the student's academic profile and interests
+- program_knowledge: Accuracy and depth of knowledge about Pakistani bachelor's/professional programs, HEC-recognized universities
+- entry_test_guidance: Quality of guidance on required entry tests (MDCAT, ECAT, NET, NTS, GAT, HAT, SAT, etc.)
+- scholarship_financial_guidance: Awareness and mention of scholarships (HEC Need-Based, PEEF, provincial) and financial considerations
+- merit_cutoff_awareness: Knowledge of realistic merit/admission cut-offs for recommended programs
+- question_quality: How targeted, thoughtful, and one-at-a-time the counsellor's questions were
+- personalization: How well recommendations were tailored to THIS specific student vs generic advice
+- empathy_and_encouragement: Emotional support, cultural sensitivity, and reassurance provided
+- clarity_of_communication: How clear, jargon-free, and easy to understand the counsellor's language was
+- student_confusion_rate: Percentage of exchanges where the student seemed confused (LOWER is better)
+- hec_guidelines_adherence: Alignment with HEC Pakistan standards and post-Intermediate educational pathways
+- session_completeness: Whether the session covered all key areas: interests, strengths, career options, entry tests, next steps, timeline
 
 {
-  "core_counseling": {
-    "intent_recognition_accuracy": "<score>",
-    "career_fit_analysis_quality": "<score>",
-    "task_completion_rate": "<score>",
-    "marksheet_context_utilization": "<score>"
+  "academic_understanding": {
+    "marksheet_analysis_depth": "<score>",
+    "subject_strength_identification": "<score>",
+    "academic_stream_awareness": "<score>"
   },
-  "conversational_quality": {
-    "context_retention": "<score>",
-    "tone_appropriateness": "<score>",
-    "empathy_score": "<score>",
-    "clarity": "<score>"
+  "career_guidance_quality": {
+    "career_path_relevance": "<score>",
+    "program_knowledge": "<score>",
+    "entry_test_guidance": "<score>",
+    "scholarship_financial_guidance": "<score>",
+    "merit_cutoff_awareness": "<score>"
   },
-  "compliance_and_ux": {
+  "student_engagement": {
+    "question_quality": "<score>",
+    "personalization": "<score>",
+    "empathy_and_encouragement": "<score>",
+    "clarity_of_communication": "<score>"
+  },
+  "compliance_and_completeness": {
     "student_confusion_rate": "<score>",
-    "hec_guidelines_adherence": "<score>"
+    "hec_guidelines_adherence": "<score>",
+    "session_completeness": "<score>"
   },
-  "summary": "<3-4 line summary of the counseling session highlighting key points and recommendations made>"
+  "summary": "<3-4 line summary of the counseling session: what the student's profile is, what career paths were recommended, key advice given, and overall session quality>"
 }
 
 Return ONLY valid JSON. Do not include markdown formatting like ```json or outside text.

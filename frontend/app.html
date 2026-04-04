@@ -237,6 +237,35 @@
           </div>
         </div>
 
+        <!-- Voice Call Section -->
+        <div id="voice-call-section" class="voice-call-section">
+          <div class="voice-call-card">
+            <div class="voice-call-visual">
+              <div class="voice-call-rings">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="ring ring-3"></div>
+              </div>
+              <div class="voice-call-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+            </div>
+            <h3 class="voice-call-title">PM's Career Counsellor</h3>
+            <p class="voice-call-status" id="call-status">Connecting...</p>
+            <p class="voice-call-timer" id="call-timer">00:00</p>
+            <button class="btn-end-call" id="btn-end-call">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+              End Call
+            </button>
+          </div>
+          <div class="voice-call-transcript" id="call-transcript"></div>
+        </div>
+
       </div><!-- /content-panel -->
     </div><!-- /main-area -->
   </div><!-- /app-layout -->
