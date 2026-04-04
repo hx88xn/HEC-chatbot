@@ -97,8 +97,8 @@ export async function startVoiceCall(sessionId) {
           let sum = 0;
           for (let i = 0; i < ch.length; i++) sum += ch[i] * ch[i];
           const rms = Math.sqrt(sum / ch.length);
-          const VOLUME_THRESHOLD = 0.015;
-          const HANGOVER_MS = 1.0;
+          const VOLUME_THRESHOLD = 0.04;
+          const HANGOVER_MS = 0.5;
           if (rms > VOLUME_THRESHOLD) {
             this.lastVoiceTime = currentTime;
           }

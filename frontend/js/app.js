@@ -205,7 +205,7 @@ function renderAnalysisErrorInto(container, message) {
     ? `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom:12px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
     : "";
   container.innerHTML = `
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;color:var(--text-secondary);min-height:300px;">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;color:var(--text-secondary);min-height:60vh;">
       ${icon}
       <p style="font-size:15px;font-weight:600;margin-bottom:8px;color:${isEmptySession ? "var(--text-primary)" : "var(--error)"};">${escapeHtml(title)}</p>
       <p style="font-size:13px;line-height:1.5;max-width:400px;">${escapeHtml(msg)}</p>
