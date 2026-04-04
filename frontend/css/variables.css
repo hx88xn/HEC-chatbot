@@ -1,23 +1,23 @@
 :root {
-  /* HEC Brand Colors */
-  --hec-green: #006633;
-  --hec-green-light: #008844;
-  --hec-green-dark: #004d26;
-  --hec-green-faint: #e8f5ee;
-  --hec-gold: #c8a94a;
-  --hec-gold-light: #e8c86a;
+  /* CM Punjab Brand Colors — Emerald & Ivory */
+  --hec-green: #1a6b4a;
+  --hec-green-light: #238c62;
+  --hec-green-dark: #104a33;
+  --hec-green-faint: #eaf5f0;
+  --hec-gold: #c8a04a;
+  --hec-gold-light: #dbb85e;
 
   /* Neutrals */
   --white: #ffffff;
-  --bg-page: #f0f4f1;
+  --bg-page: #f5f7f5;
   --bg-card: #ffffff;
-  --border: #d0dbd4;
-  --border-light: #e8efe9;
+  --border: #d0ddd6;
+  --border-light: #e6ede9;
 
   /* Text */
-  --text-primary: #1a2e1f;
-  --text-secondary: #4a6054;
-  --text-muted: #7a9080;
+  --text-primary: #1a2b22;
+  --text-secondary: #3d5a4a;
+  --text-muted: #7a9a8a;
 
   /* Status */
   --success: #1a8a3a;
@@ -28,9 +28,9 @@
   --warning-bg: #fff8e6;
 
   /* Shadows */
-  --shadow-sm: 0 1px 4px rgba(0, 102, 51, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 102, 51, 0.12);
-  --shadow-lg: 0 8px 32px rgba(0, 102, 51, 0.16);
+  --shadow-sm: 0 1px 4px rgba(26, 107, 74, 0.08);
+  --shadow-md: 0 4px 16px rgba(26, 107, 74, 0.12);
+  --shadow-lg: 0 8px 32px rgba(26, 107, 74, 0.16);
 
   /* Typography */
   --font: "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;

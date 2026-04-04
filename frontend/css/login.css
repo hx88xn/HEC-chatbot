@@ -11,33 +11,44 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: url('/pm-banner.jpeg') 85% center / cover no-repeat fixed;
-  padding: 24px;
+  justify-content: flex-end;
+  background: #0a2a1a;
+  padding: 24px 30% 24px 24px;
   position: relative;
   overflow: hidden;
 }
 
-/* Semi-transparent green overlay so the card is readable */
+/* Background image as pseudo-element for full position control */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url('/cm-punjab-banner.webp') 10% center / cover no-repeat;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Tinted overlay */
 body::before {
   content: "";
-  position: absolute;
+  position: fixed;
   inset: 0;
-  background: linear-gradient(145deg, rgba(0,77,38,0.5) 0%, rgba(0,102,51,0.4) 50%, rgba(0,136,68,0.45) 100%);
+  background: rgba(16,74,51,0.45);
+  z-index: 1;
   pointer-events: none;
 }
 
 .login-card {
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.2);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.25), 0 0 60px rgba(16,74,51,0.12);
   padding: 48px 40px 40px;
   width: 100%;
   max-width: 420px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Header */
@@ -55,7 +66,7 @@ body::before {
   background: linear-gradient(135deg, var(--hec-green) 0%, var(--hec-green-light) 100%);
   border-radius: var(--radius-lg);
   margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0,102,51,0.3);
+  box-shadow: 0 4px 12px rgba(26,107,74,0.3);
 }
 
 .hec-logo svg {
@@ -141,7 +152,7 @@ body::before {
 
 .form-group input:focus {
   border-color: var(--hec-green);
-  box-shadow: 0 0 0 3px rgba(0,102,51,0.12);
+  box-shadow: 0 0 0 3px rgba(26,107,74,0.12);
 }
 
 .form-group input::placeholder {
@@ -161,14 +172,14 @@ body::before {
   font-family: var(--font);
   cursor: pointer;
   transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
-  box-shadow: 0 3px 10px rgba(0,102,51,0.35);
+  box-shadow: 0 3px 10px rgba(26,107,74,0.35);
   letter-spacing: 0.3px;
 }
 
 .btn-login:hover {
   opacity: 0.92;
   transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(0,102,51,0.4);
+  box-shadow: 0 5px 16px rgba(26,107,74,0.4);
 }
 
 .btn-login:active {
@@ -258,6 +269,7 @@ body::before {
   body {
     padding: 0;
     background-attachment: scroll;
+    justify-content: center;
     align-items: flex-start;
   }
 
@@ -266,6 +278,6 @@ body::before {
     border-radius: 0;
     padding: 36px max(24px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
     min-height: 100vh;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.92);
   }
 }

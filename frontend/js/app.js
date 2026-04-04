@@ -259,7 +259,7 @@ function buildAnalysisHtml(data) {
       title: "Compliance & Completeness",
       labels: {
         student_confusion_rate: "Student Confusion Rate",
-        hec_guidelines_adherence: "HEC Guidelines Adherence",
+        hec_guidelines_adherence: "Guidelines Adherence",
         session_completeness: "Session Completeness",
       },
     },
