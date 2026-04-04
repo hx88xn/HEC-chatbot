@@ -92,7 +92,7 @@ async def analyze_session(session_id: str, _user: str = Depends(verify_token)):
         raise HTTPException(status_code=404, detail="Session not found")
         
     if not session.history:
-        raise HTTPException(status_code=400, detail="Cannot analyze an empty session")
+        raise HTTPException(status_code=400, detail="No conversation to analyze yet. Please have a chat or voice call with the counsellor first, then try again.")
         
     analysis = await generate_session_analysis(session.history)
     return analysis

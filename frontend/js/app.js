@@ -198,10 +198,17 @@ function renderAnalysisInto(container, data) {
 }
 
 function renderAnalysisErrorInto(container, message) {
+  const msg = String(message);
+  const isEmptySession = msg.toLowerCase().includes("no conversation");
+  const title = isEmptySession ? "Nothing to Analyze" : "Analysis Failed";
+  const icon = isEmptySession
+    ? `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="margin-bottom:12px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
+    : "";
   container.innerHTML = `
-    <div style="text-align:center;padding:32px 0;color:var(--error);">
-      <p style="font-size:14px;font-weight:600;margin-bottom:6px;">Analysis Failed</p>
-      <p style="font-size:13px;color:var(--text-secondary);">${escapeHtml(String(message))}</p>
+    <div style="text-align:center;padding:40px 16px;color:var(--text-secondary);">
+      ${icon}
+      <p style="font-size:15px;font-weight:600;margin-bottom:8px;color:${isEmptySession ? "var(--text-primary)" : "var(--error)"};">${escapeHtml(title)}</p>
+      <p style="font-size:13px;line-height:1.5;">${escapeHtml(msg)}</p>
     </div>`;
   container.style.display = "block";
 }

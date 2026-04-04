@@ -215,7 +215,6 @@ function handleServerEvent(data) {
 
     case "transcript_delta":
       if (data.role === "assistant") {
-        finalizeUserBubble();
         currentAssistantTranscript += data.delta;
         updateStreamingTranscript();
       }
@@ -223,6 +222,7 @@ function handleServerEvent(data) {
 
     case "transcript_done":
       if (data.role === "assistant") {
+        finalizeUserBubble();
         finalizeTranscriptEntry("Counsellor", data.transcript || currentAssistantTranscript);
         currentAssistantTranscript = "";
       } else if (data.role === "user" && data.transcript) {
@@ -337,7 +337,14 @@ function appendToUserBubble(text) {
     pendingUserBubble = document.createElement("div");
     pendingUserBubble.className = "transcript-entry user";
     pendingUserBubble.innerHTML = `<span class="transcript-label">You</span><span class="transcript-text"></span>`;
-    transcriptEl.appendChild(pendingUserBubble);
+    // Insert before any streaming assistant entry to maintain correct order
+    // (user transcript often arrives after assistant starts streaming)
+    const streaming = transcriptEl.querySelector(".streaming");
+    if (streaming) {
+      transcriptEl.insertBefore(pendingUserBubble, streaming);
+    } else {
+      transcriptEl.appendChild(pendingUserBubble);
+    }
   }
 
   pendingUserBubble.querySelector(".transcript-text").textContent = pendingUserTranscript;
