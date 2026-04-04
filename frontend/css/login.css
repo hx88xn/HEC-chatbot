@@ -12,87 +12,58 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, var(--hec-green-dark) 0%, var(--hec-green) 50%, var(--hec-green-light) 100%);
+  background: url('/pm-banner.jpeg') center / cover no-repeat fixed;
   padding: 24px;
   position: relative;
   overflow: hidden;
 }
 
-/* Decorative background pattern */
+/* Semi-transparent green overlay so the card is readable */
 body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(200,169,74,0.08) 0%, transparent 50%);
+  background: linear-gradient(145deg, rgba(0,77,38,0.82) 0%, rgba(0,102,51,0.75) 50%, rgba(0,136,68,0.78) 100%);
   pointer-events: none;
 }
-
-/* ── Card with banner ─────────────────────────────── */
 
 .login-card {
   background: var(--white);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.1);
+  padding: 48px 40px 40px;
   width: 100%;
-  max-width: 460px;
+  max-width: 420px;
   position: relative;
   z-index: 1;
-  overflow: hidden;
-}
-
-/* Banner image at top of card */
-.login-banner {
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-  position: relative;
-}
-
-.login-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-/* Card body (form area) */
-.login-body {
-  padding: 36px 40px 40px;
 }
 
 /* Header */
 .login-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .hec-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   background: linear-gradient(135deg, var(--hec-green) 0%, var(--hec-green-light) 100%);
   border-radius: var(--radius-lg);
-  margin-top: -52px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   box-shadow: 0 4px 12px rgba(0,102,51,0.3);
-  border: 3px solid var(--white);
-  position: relative;
-  z-index: 2;
 }
 
 .hec-logo svg {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   fill: none;
 }
 
 .login-header h1 {
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.3;
@@ -281,23 +252,12 @@ body::before {
 
 /* ── Responsive ───────────────────────────────────── */
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   body {
-    padding: 0;
-    align-items: flex-start;
+    padding: 16px;
   }
 
   .login-card {
-    max-width: 100%;
-    border-radius: 0;
-    min-height: 100vh;
-  }
-
-  .login-banner {
-    height: 130px;
-  }
-
-  .login-body {
-    padding: 32px 24px;
+    padding: 36px 24px 32px;
   }
 }
