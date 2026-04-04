@@ -258,6 +258,11 @@ CATEGORY: student_engagement
   - empathy_and_encouragement: Was the tone warm and supportive? Any encouragement or reassurance counts.
   - clarity_of_communication: Was the counsellor easy to understand? If the student didn't seem confused, score this high.
 
+CATEGORY: career_recommendation
+  - specific_career_suggested: Did the counsellor explicitly recommend a specific career or field (e.g. "you should pursue software engineering" or "medicine is a great fit for you")? A clear, named career recommendation scores 80%+. Vague advice like "explore your options" scores below 40%.
+  - reasoning_quality: Was the career recommendation tied to the student's actual profile — their marks, interests, stream, or aspirations? Well-reasoned = 80%+. Generic = 40-60%.
+  - actionable_next_steps: Did the counsellor provide concrete next steps for the recommended career (e.g. specific universities, entry tests, preparation timeline)? Even 1-2 actionable items scores 70%+.
+
 CATEGORY: compliance_and_completeness
   - student_confusion_rate (LOWER IS BETTER): What percentage of the student's responses showed confusion? If the conversation flowed naturally, score 0-10%.
   - hec_guidelines_adherence: Was the advice aligned with Pakistani education norms? If nothing was factually wrong, score 75%+.
@@ -285,6 +290,11 @@ Return a STRICT JSON object. Every score field must be a string containing ONLY 
     "personalization": "<score>",
     "empathy_and_encouragement": "<score>",
     "clarity_of_communication": "<score>"
+  },
+  "career_recommendation": {
+    "specific_career_suggested": "<score>",
+    "reasoning_quality": "<score>",
+    "actionable_next_steps": "<score>"
   },
   "compliance_and_completeness": {
     "student_confusion_rate": "<score>",

@@ -236,6 +236,15 @@ function buildAnalysisHtml(data) {
       },
     },
     {
+      key: "career_recommendation",
+      title: "Career Recommendation",
+      labels: {
+        specific_career_suggested: "Specific Career Suggested",
+        reasoning_quality: "Reasoning Quality",
+        actionable_next_steps: "Actionable Next Steps",
+      },
+    },
+    {
       key: "student_engagement",
       title: "Student Engagement",
       labels: {
