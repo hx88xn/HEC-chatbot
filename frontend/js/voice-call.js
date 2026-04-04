@@ -8,6 +8,7 @@ let micProc = null;
 let playbackContext = null;
 let nextPlayTime = 0;
 let callActive = false;
+let audioQueue = [];
 
 const callSection = document.getElementById("voice-call-section");
 const callStatus = document.getElementById("call-status");
@@ -199,6 +200,11 @@ function handleServerEvent(data) {
       startTimer();
       break;
 
+    case "clear":
+      // User started speaking — stop all queued AI audio immediately
+      clearAudioQueue();
+      break;
+
     case "media":
       playAudioChunk(data.media.payload);
       break;
@@ -222,6 +228,18 @@ function handleServerEvent(data) {
     case "error":
       showToast(data.message || "Voice call error", "error");
       break;
+  }
+}
+
+function clearAudioQueue() {
+  audioQueue.forEach((source) => {
+    try {
+      source.stop();
+    } catch {}
+  });
+  audioQueue = [];
+  if (playbackContext) {
+    nextPlayTime = playbackContext.currentTime;
   }
 }
 
@@ -262,6 +280,13 @@ function playAudioChunk(pcmB64) {
   if (nextPlayTime < now) nextPlayTime = now;
   source.start(nextPlayTime);
   nextPlayTime += buffer.duration;
+
+  // Track source so clearAudioQueue can stop it
+  audioQueue.push(source);
+  source.onended = () => {
+    const idx = audioQueue.indexOf(source);
+    if (idx > -1) audioQueue.splice(idx, 1);
+  };
 }
 
 // ── Transcript display ──────────────────────────────────────
@@ -337,7 +362,8 @@ export function endVoiceCall() {
     micContext = null;
   }
 
-  // Close playback
+  // Clear any queued audio and close playback
+  clearAudioQueue();
   if (playbackContext) {
     try {
       playbackContext.close();

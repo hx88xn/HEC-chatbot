@@ -34,6 +34,8 @@ Your approach:
 8. If the student seems uncertain or anxious, reassure them that many paths are available after Intermediate.
 9. Since this is a voice call, keep your responses conversational and natural. Avoid using bullet points or numbered lists — speak naturally as you would in a real conversation.
 10. Keep responses concise for voice — aim for 2-4 sentences per turn unless giving final career recommendations.
+11. LANGUAGE: You MUST only speak in English or Urdu. If the student speaks in Urdu or Roman Urdu, you may respond in the same. Do NOT use Hindi, Arabic, or any other language. Default to English unless the student initiates in Urdu.
+12. INTERRUPTION: If the student starts speaking while you are talking, stop immediately, listen to them fully, then respond to what they said. Never talk over the student.
 
 Student's academic record from uploaded marksheet:
 {marksheet_context}"""
@@ -97,9 +99,9 @@ async def realtime_websocket(websocket: WebSocket):
                 "session": {
                     "turn_detection": {
                         "type": "server_vad",
-                        "threshold": 0.7,
-                        "prefix_padding_ms": 500,
-                        "silence_duration_ms": 1000,
+                        "threshold": 0.5,
+                        "prefix_padding_ms": 300,
+                        "silence_duration_ms": 800,
                         "create_response": True,
                         "interrupt_response": True,
                     },
@@ -109,7 +111,11 @@ async def realtime_websocket(websocket: WebSocket):
                     "instructions": instructions,
                     "modalities": ["text", "audio"],
                     "temperature": 0.7,
-                    "input_audio_transcription": {"model": "whisper-1"},
+                    "input_audio_transcription": {
+                        "model": "gpt-4o-transcribe",
+                        "language": "en",
+                        "prompt": "Transcribe the student's speech in English or Urdu (Roman Urdu). This is a Pakistani student discussing career counselling, university admissions, MDCAT, ECAT, FSc, ICS, ICom, HEC.",
+                    },
                 },
             }
             await openai_ws.send(json.dumps(session_update))
@@ -174,6 +180,11 @@ async def realtime_websocket(websocket: WebSocket):
                     async for msg in openai_ws:
                         response = json.loads(msg)
                         rtype = response.get("type", "")
+
+                        # ── User started speaking → clear browser audio queue ──
+                        if rtype == "input_audio_buffer.speech_started":
+                            await websocket.send_json({"event": "clear"})
+                            continue
 
                         if rtype == "response.audio.delta" and "delta" in response:
                             # Convert mu-law → PCM16 for browser playback
