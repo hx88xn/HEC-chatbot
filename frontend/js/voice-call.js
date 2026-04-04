@@ -152,13 +152,27 @@ export async function startVoiceCall(sessionId) {
       endVoiceCall();
     });
 
-    // 6. When AudioWorklet produces audio, send to backend
+    // 6. When AudioWorklet produces audio, ALWAYS send to backend
+    //    OpenAI server-side VAD needs a continuous audio stream
+    //    (speech AND silence) to detect turn boundaries.
     micProc.port.onmessage = (e) => {
       const { audio, sendAudio } = e.data;
-      if (sendAudio && ws && ws.readyState === WebSocket.OPEN && callActive) {
-        const pcm16 = floatTo16BitPCM(audio);
-        const b64 = uint8ToBase64(pcm16);
-        ws.send(JSON.stringify({ event: "media", media: { payload: b64 } }));
+      if (ws && ws.readyState === WebSocket.OPEN && callActive) {
+        let b64;
+        if (sendAudio) {
+          const pcm16 = floatTo16BitPCM(audio);
+          b64 = uint8ToBase64(pcm16);
+        } else {
+          // Send silence (zeros) to keep the stream continuous
+          const silence = new Uint8Array(audio.length * 2);
+          b64 = uint8ToBase64(silence);
+        }
+        ws.send(
+          JSON.stringify({
+            event: "media",
+            media: { payload: b64, timestamp: Date.now() },
+          })
+        );
       }
     };
   } catch (err) {
