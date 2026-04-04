@@ -12,7 +12,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url('/pm-banner.jpeg') 70% center / cover no-repeat fixed;
+  background: url('/pm-banner.jpeg') 55% center / cover no-repeat fixed;
   padding: 24px;
   position: relative;
   overflow: hidden;
