@@ -1108,6 +1108,12 @@ html, body {
   color: white;
 }
 
+.topbar-actions .btn-outline svg,
+.topbar-actions .btn-primary svg {
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
 /* Voice analysis action buttons */
 .voice-analysis-actions {
   display: flex;
@@ -1620,15 +1626,69 @@ html, body {
 
 /* Responsive */
 @media (max-width: 640px) {
+  /* Layout */
   .sidebar { display: none; }
-  .message { max-width: 90%; }
-  .upload-card { padding: 24px 18px; }
-  .chat-messages { padding: 16px; }
-  .topbar { padding: 0 16px; }
+
+  /* Topbar */
+  .topbar {
+    padding: 0 max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    gap: 8px;
+  }
+  .topbar-title { font-size: 14px; }
   .topbar-subtitle { display: none; }
+  .powered-by-badge { display: none; }
+  .topbar-actions { gap: 6px; }
+  .topbar-actions .btn-outline,
+  .topbar-actions .btn-primary {
+    font-size: 0;
+    padding: 8px;
+    min-width: 36px;
+    min-height: 36px;
+    justify-content: center;
+  }
+  .topbar-actions .btn-outline svg,
+  .topbar-actions .btn-primary svg {
+    margin-right: 0 !important;
+  }
+
+  /* Chat */
+  .message { max-width: 90%; }
+  .chat-messages { padding: 12px; }
+  .chat-input-area {
+    padding: 10px max(12px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-bottom));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+  .chat-input-hint { font-size: 11px; }
+  .chat-header { padding: 12px; }
+
+  /* Upload */
+  .upload-card { padding: 24px 18px; }
+  .upload-card-header { margin-bottom: 20px; }
+  .upload-card-header h2 { font-size: 19px; }
+  .drop-zone { padding: 24px 16px; }
+  #upload-section { padding: 24px 16px; }
+
+  /* Mode selection */
   .mode-buttons { grid-template-columns: 1fr; }
+
+  /* Voice call */
+  .voice-call-card { padding: 28px 16px 20px; }
+  .voice-call-rings { width: 110px; height: 110px; }
+  .voice-call-avatar { width: 56px; height: 56px; }
+  .voice-call-avatar svg { width: 26px; height: 26px; }
+  .voice-call-title { font-size: 17px; }
+
+  /* Transcript */
   .transcript-entry { max-width: 95%; }
-  .voice-call-card { padding: 32px 16px 24px; }
+  .transcript-entry .transcript-text { font-size: 13px; }
+
+  /* Voice analysis */
   .voice-analysis-header { padding: 20px 16px; }
   .voice-analysis-body { padding: 20px 16px; }
+  .voice-analysis-title { font-size: 17px; }
+  .voice-analysis-body .analysis-results { max-width: 100%; }
+
+  /* Modal */
+  .modal-content { margin: 16px; max-height: calc(100vh - 32px); }
 }

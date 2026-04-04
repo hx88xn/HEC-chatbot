@@ -264,7 +264,7 @@ body::before {
   .login-card {
     max-width: 100%;
     border-radius: 0;
-    padding: 36px 24px 32px;
+    padding: 36px max(24px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
     min-height: 100vh;
     background: rgba(255,255,255,0.9);
   }

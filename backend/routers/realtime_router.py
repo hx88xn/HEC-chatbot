@@ -101,7 +101,7 @@ async def realtime_websocket(websocket: WebSocket):
                         "type": "server_vad",
                         "threshold": 0.5,
                         "prefix_padding_ms": 300,
-                        "silence_duration_ms": 800,
+                        "silence_duration_ms": 1200,
                         "create_response": True,
                         "interrupt_response": True,
                     },
@@ -113,8 +113,16 @@ async def realtime_websocket(websocket: WebSocket):
                     "temperature": 0.7,
                     "input_audio_transcription": {
                         "model": "gpt-4o-transcribe",
-                        "language": "en",
-                        "prompt": "Transcribe the student's speech in English or Urdu (Roman Urdu). This is a Pakistani student discussing career counselling, university admissions, MDCAT, ECAT, FSc, ICS, ICom, HEC.",
+                        "prompt": (
+                            "Transcribe the student's speech accurately, preserving natural pauses. "
+                            "The speaker is a Pakistani student discussing career counselling, "
+                            "university admissions, and academic results. Common terms: "
+                            "MDCAT, ECAT, FSc, ICS, ICom, FA, DAE, HEC, NUST, LUMS, COMSATS, "
+                            "UET, NED, FAST, GIKI, PIEAS, BBA, BS, MS, merit, aggregate, marks, "
+                            "percentage, grade. The student may code-switch between English and "
+                            "Roman Urdu (e.g., 'mujhe engineering mein interest hai', "
+                            "'kya mera merit ban sakta hai'). Transcribe Roman Urdu as spoken."
+                        ),
                     },
                 },
             }

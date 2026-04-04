@@ -9,6 +9,8 @@ let playbackContext = null;
 let nextPlayTime = 0;
 let callActive = false;
 let audioQueue = [];
+let pendingUserTranscript = "";
+let pendingUserBubble = null;
 
 const callSection = document.getElementById("voice-call-section");
 const callStatus = document.getElementById("call-status");
@@ -55,6 +57,8 @@ export async function startVoiceCall(sessionId) {
   callStatus.textContent = "Connecting...";
   callTimer.textContent = "00:00";
   transcriptEl.innerHTML = "";
+  pendingUserTranscript = "";
+  pendingUserBubble = null;
 
   try {
     // 1. Set up AudioContext for mic capture at 8 kHz (matches g711_ulaw)
@@ -211,6 +215,7 @@ function handleServerEvent(data) {
 
     case "transcript_delta":
       if (data.role === "assistant") {
+        finalizeUserBubble();
         currentAssistantTranscript += data.delta;
         updateStreamingTranscript();
       }
@@ -221,7 +226,7 @@ function handleServerEvent(data) {
         finalizeTranscriptEntry("Counsellor", data.transcript || currentAssistantTranscript);
         currentAssistantTranscript = "";
       } else if (data.role === "user" && data.transcript) {
-        addTranscriptEntry("You", data.transcript);
+        appendToUserBubble(data.transcript);
       }
       break;
 
@@ -319,6 +324,33 @@ function addTranscriptEntry(label, text) {
   transcriptEl.scrollTop = transcriptEl.scrollHeight;
 }
 
+function appendToUserBubble(text) {
+  if (!text || !text.trim()) return;
+
+  if (pendingUserTranscript) {
+    pendingUserTranscript += " " + text.trim();
+  } else {
+    pendingUserTranscript = text.trim();
+  }
+
+  if (!pendingUserBubble) {
+    pendingUserBubble = document.createElement("div");
+    pendingUserBubble.className = "transcript-entry user";
+    pendingUserBubble.innerHTML = `<span class="transcript-label">You</span><span class="transcript-text"></span>`;
+    transcriptEl.appendChild(pendingUserBubble);
+  }
+
+  pendingUserBubble.querySelector(".transcript-text").textContent = pendingUserTranscript;
+  transcriptEl.scrollTop = transcriptEl.scrollHeight;
+}
+
+function finalizeUserBubble() {
+  if (pendingUserTranscript && pendingUserBubble) {
+    pendingUserTranscript = "";
+    pendingUserBubble = null;
+  }
+}
+
 // ── Timer ───────────────────────────────────────────────────
 
 function startTimer() {
@@ -335,6 +367,7 @@ function startTimer() {
 
 export function endVoiceCall() {
   callActive = false;
+  finalizeUserBubble();
 
   if (timerInterval) {
     clearInterval(timerInterval);
